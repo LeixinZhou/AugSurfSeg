@@ -17,7 +17,7 @@ class Augmentor(object):
         Returns:
             Augmented image and ground truth surface.
         """
-        return {'img': img_aug(input['img']), 'gt': gt_aug(input['gt'])}
+        return {'img': self.img_aug(input['img']), 'gt': self.gt_aug(input['gt'])}
 
 
 class AugNoGTChange(Augmentor):
