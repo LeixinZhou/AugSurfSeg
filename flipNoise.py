@@ -1,6 +1,7 @@
 import numpy as np
 from augmentor import AugNoGTChange
 
+
 class SaltPepperNoise(AugNoGTChange):
     """
     Just add salt pepper noise.
@@ -13,13 +14,8 @@ class SaltPepperNoise(AugNoGTChange):
         self.sp_ratio = sp_ratio
         self.salt_ratio = salt_ratio
 
-    def img_aug(self, nparray):
-        """
-        Args:
-            nparray: nparray of any size to be added noise.
-        Returns:
-            nparray: noised nparray
-        """
+    def img_aug(self, input_img_gt):
+        nparray = input_img_gt['img']
         flipped = np.random.choice([True, False], size=nparray.shape, p=[
                                    self.sp_ratio, 1-self.sp_ratio])
         salted = np.random.choice([True, False], size=nparray.shape, p=[

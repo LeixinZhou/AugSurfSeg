@@ -9,7 +9,8 @@ class AddNoise(AugNoGTChange):
     def noise_gen(self, nparray, *args):
         raise NotImplementedError()
 
-    def img_aug(self, nparray):
+    def img_aug(self, input_img_gt):
+        nparray = input_img_gt['img']
         return nparray + self.noise_gen(nparray)
 
 
@@ -25,7 +26,8 @@ class AddNoiseGaussian(AddNoise):
         self.loc = loc
         self.scale = scale
 
-    def noise_gen(self, nparray):
+    def noise_gen(self, input_img_gt):
+        nparray = input_img_gt['img']
         return np.random.normal(self.loc, self.scale, size=nparray.shape)
 
 
@@ -41,5 +43,6 @@ class AddNoiseLaplace(AddNoise):
         self.loc = loc
         self.scale = scale
 
-    def noise_gen(self, nparray):
+    def noise_gen(self, input_img_gt):
+        nparray = input_img_gt['img']
         return np.random.laplace(self.loc, self.scale, size=nparray.shape)

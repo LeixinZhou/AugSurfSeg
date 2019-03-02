@@ -5,7 +5,8 @@ class NormalizeSTD(AugNoGTChange):
     """
     Just normalize the input nparray to have zero mean and unit std.
     """
-    def img_aug(self, nparray):
+    def img_aug(self, input_img_gt):
+        nparray = input_img_gt['img']
         if not type(nparray) is np.ndarray:
             raise TypeError('input is not a numpy array.')
         mean, std = np.mean(nparray), np.std(nparray)
@@ -30,7 +31,8 @@ class NormalizeLinear(AugNoGTChange):
         self.t_min = t_min
         self.t_max = t_max
 
-    def img_aug(self, nparray):
+    def img_aug(self, input_img_gt):
+        nparray = input_img_gt['img']
         c_min, c_max = np.min(nparray), np.max(nparray)
         return (self.t_max - self.t_min) * (nparray - c_min) / (c_max - c_min) + self.t_min
 
