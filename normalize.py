@@ -41,7 +41,7 @@ class NormalizeLinear(object):
 
     def normalize(self, nparray):
         c_min, c_max = np.min(nparray), np.max(nparray)
-        return (self.t_max - self.t_min) * (nparray - c_min) / (c_max - c_min) + t_min
+        return (self.t_max - self.t_min) * (nparray - c_min) / (c_max - c_min) + self.t_min
 
     def __call__(self, nparray):
         return self.normalize(nparray)

@@ -1,9 +1,12 @@
+import numpy as np
+
+
 class AddNoise(object):
     """
     The base class for additive noises.
     """
 
-    def noise_gen(nparray, *args):
+    def noise_gen(self, nparray, *args):
         raise NotImplementedError()
 
     def __call__(self, nparray):
