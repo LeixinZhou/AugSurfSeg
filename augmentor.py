@@ -13,7 +13,7 @@ class Augmentor(object):
         """
         This augments image and its corresponding surface ground truth.
         Args:
-            input: a dictionary of the shape {'img': img_nparray, 'gt': gt_nparray}.
+            input: a dictionary of the shape {'img': img_nparray, 'gt': gt_nparray}. img_nparray shape: row x column, gt_array shape: column.
         Returns:
             Augmented image and ground truth surface.
         """
@@ -30,6 +30,7 @@ class AugNoGTChange(Augmentor):
 
     def gt_aug(self, gt_nparray, *args):
         return gt_nparray
+
 
 class AugWithGTChange(Augmentor):
     """
