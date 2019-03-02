@@ -5,8 +5,8 @@ class SaltPepperNoise(object):
     """
     Just add salt pepper noise.
     Args:
-        sp_ratio: ratio of positions to change to salt (max value) or pepper (min value).
-        salt_ratio: ratio of salt 
+        sp_ratio: ratio of positions to change to salt (max value) or pepper (min value), default to be 0.1.
+        salt_ratio: ratio of salt, default to be 0.5.
     """
 
     def __init__(self, sp_ratio=0.1, salt_ratio=0.5):
