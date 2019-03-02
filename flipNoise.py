@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class SaltPepperNoise(object):
+class SaltPepperNoise(AugNoGTChange):
     """
     Just add salt pepper noise.
     Args:
@@ -13,7 +13,7 @@ class SaltPepperNoise(object):
         self.sp_ratio = sp_ratio
         self.salt_ratio = salt_ratio
 
-    def __call__(self, nparray):
+    def img_aug(self, nparray):
         """
         Args:
             nparray: nparray of any size to be added noise.

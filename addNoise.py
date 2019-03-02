@@ -1,7 +1,7 @@
 import numpy as np
+from augNoGTChange import AugNoGTChange
 
-
-class AddNoise(object):
+class AddNoise(AugNoGTChange):
     """
     The base class for additive noises.
     """
@@ -9,7 +9,7 @@ class AddNoise(object):
     def noise_gen(self, nparray, *args):
         raise NotImplementedError()
 
-    def __call__(self, nparray):
+    def img_aug(self, nparray):
         return nparray + self.noise_gen(nparray)
 
 

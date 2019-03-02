@@ -1,12 +1,11 @@
 import numpy as np
+from augNoGTChange import AugNoGTChange
 
-
-class NormalizeSTD(object):
+class NormalizeSTD(AugNoGTChange):
     """
     Just normalize the input nparray to have zero mean and unit std.
     """
-    @staticmethod
-    def normalize(nparray):
+    def img_aug(self, nparray):
         if not type(nparray) is np.ndarray:
             raise TypeError('input is not a numpy array.')
         mean, std = np.mean(nparray), np.std(nparray)
@@ -14,17 +13,9 @@ class NormalizeSTD(object):
         nparray /= std
         return nparray
 
-    def __call__(self, nparray):
-        """
-        Args:
-            nparray: nparray of any size to be normalized.
-        Returns:
-            nparray: normalized nparray
-        """
-        return self.normalize(nparray)
 
 
-class NormalizeLinear(object):
+class NormalizeLinear(AugNoGTChange):
     """
     Just normalize the input array to have fixed range by linear transformation.object
     Args:
@@ -39,9 +30,7 @@ class NormalizeLinear(object):
         self.t_min = t_min
         self.t_max = t_max
 
-    def normalize(self, nparray):
+    def img_aug(self, nparray):
         c_min, c_max = np.min(nparray), np.max(nparray)
         return (self.t_max - self.t_min) * (nparray - c_min) / (c_max - c_min) + self.t_min
 
-    def __call__(self, nparray):
-        return self.normalize(nparray)
