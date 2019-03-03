@@ -1,5 +1,6 @@
 from augmentor import AugWithGTChange
 import numpy as np
+import random
 
 
 class MirrorLR(AugWithGTChange):
@@ -25,3 +26,27 @@ class MirrorUD(AugWithGTChange):
         gt_nparray = input_img_gt['gt']
         img_nparray = input_img_gt['img']
         return img_nparray.shape[0] - gt_nparray - 1
+
+
+class CirculateCol(AugWithGTChange):
+    def img_aug(self, input_img_gt, shift_step):
+        img_nparray = input_img_gt['img']
+        aug_img_nparray = np.empty_like(img_nparray)
+        aug_img_nparray[:, :shift_step] = img_nparray[:, -shift_step:]
+        aug_img_nparray[:, shift_step:] = img_nparray[:, :-shift_step]
+        return aug_img_nparray
+
+    def gt_aug(self, input_img_gt, shift_step):
+        gt_nparray = input_img_gt['gt']
+        aug_gt_nparray = np.empty_like(gt_nparray)
+        aug_gt_nparray[:shift_step] = gt_nparray[-shift_step:]
+        aug_gt_nparray[shift_step:] = gt_nparray[:-shift_step]
+        return aug_gt_nparray
+
+    def __call__(self, input_img_gt):
+        """
+        This function circulates image and gt toward right with a random step number.
+        """
+        shift_step = random.randint(1, input_img_gt['gt'].shape[0]-1)
+        return {'img': self.img_aug(input_img_gt, shift_step),
+                'gt': self.gt_aug(input_img_gt, shift_step)}
