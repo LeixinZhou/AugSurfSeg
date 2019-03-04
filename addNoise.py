@@ -6,12 +6,12 @@ class AddNoise(AugNoGTChange):
     The base class for additive noises.
     """
 
-    def noise_gen(self, nparray, *args):
+    def noise_gen(self,  *args):
         raise NotImplementedError()
 
     def img_aug(self, input_img_gt):
         nparray = input_img_gt['img']
-        return nparray + self.noise_gen(nparray)
+        return nparray + self.noise_gen(input_img_gt)
 
 
 class AddNoiseGaussian(AddNoise):

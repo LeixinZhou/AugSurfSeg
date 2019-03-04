@@ -15,7 +15,7 @@ class SaltPepperNoise(AugNoGTChange):
         self.salt_ratio = salt_ratio
 
     def img_aug(self, input_img_gt):
-        nparray = input_img_gt['img']
+        nparray = input_img_gt['img'].copy()
         flipped = np.random.choice([True, False], size=nparray.shape, p=[
                                    self.sp_ratio, 1-self.sp_ratio])
         salted = np.random.choice([True, False], size=nparray.shape, p=[

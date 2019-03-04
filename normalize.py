@@ -26,7 +26,7 @@ class NormalizeLinear(AugNoGTChange):
         normalized nparray
     """
 
-    def __init__(self, t_min, t_max):
+    def __init__(self, t_min=-1., t_max=1.):
         assert t_max > t_min
         self.t_min = t_min
         self.t_max = t_max
