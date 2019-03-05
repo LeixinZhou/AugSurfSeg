@@ -41,22 +41,28 @@ class RandomCropResize(AugWithGTChange):
             row_start_min = 0
         else:
             row_start_min = gt_max - row_crop_size
-        row_start = random.randint(row_start_min, gt_min)
+        # print("index", row_start_min, gt_min)
+        row_start = random.randint(row_start_min, min(gt_min, input_img.shape[0]-row_crop_size))
         row_end = row_start + row_crop_size
+        
         
         return row_start, row_end, col_start, col_end
 
     @staticmethod
     def _crop_resize(input_img_gt, crop_ratio, img_interp, gt_interp, row_start, row_end, col_start, col_end):
         # crop
+        # print(row_start, row_end)
         cropped_img = input_img_gt['img'][row_start:row_end, col_start:col_end]
+        
         # adjust gt: subtract row start, magnify in the same time as reverse of crop ratio
         cropped_gt = (input_img_gt['gt'][col_start:col_end] - row_start) / crop_ratio
         row_size = row_end - row_start
         col_size = col_end - col_start
+        # print(cropped_img.shape, row_size, col_size)
         # original size
         row_size_orig, col_size_orig = input_img_gt['img'].shape
         # resize img
+        
         f_img = interpolate.interp2d(np.arange(
             col_size), np.arange(row_size), cropped_img, kind=img_interp)
         resized_img = f_img(np.linspace(start=0, stop=col_size-1, num=col_size_orig), np.linspace(
@@ -87,7 +93,6 @@ class ElasticTrans(AugWithGTChange):
         img_shape = input_img.shape
         d_row = gaussian_filter(np.random.rand(*input_gt.shape) * 2 - 1, self.sigma) * self.alpha
         row, col = np.meshgrid(np.arange(img_shape[1]), np.arange(img_shape[0]))
-        print(d_row.shape, row.shape, col.shape)
         indices =  np.reshape(col, (-1, 1)), np.reshape(row+d_row, (-1, 1))
         new_img = map_coordinates(input_img, indices, order=self.img_interp, mode='reflect').reshape(img_shape)
         new_gt = input_gt - d_row
