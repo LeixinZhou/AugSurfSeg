@@ -52,7 +52,8 @@ class RandomApplyTrans(object):
     Randomly apply transforms from the input list and then apply the necessary transform list.len
     Args:
         trans_seq: randomly applied list
-        trans_seq_must: the necessary transform list
+        trans_seq_post: the necessary post transform list
+        trans_seq_pre: the necessary pre transform list
     """
     def __init__(self, trans_seq, trans_seq_pre=[], trans_seq_post=[]):
         assert isinstance(trans_seq, (list, tuple))

@@ -6,17 +6,17 @@ import random
 class MirrorLR(AugWithGTChange):
     def img_aug(self, input_img_gt):
         nparray = input_img_gt['img']
-        return np.fliplr(nparray)
+        return np.fliplr(nparray).copy()
 
     def gt_aug(self, input_img_gt):
         nparray = input_img_gt['gt']
-        return np.flipud(nparray)
+        return np.flipud(nparray).copy()
 
 
 class MirrorUD(AugWithGTChange):
     def img_aug(self, input_img_gt):
         nparray = input_img_gt['img']
-        return np.flipud(nparray)
+        return np.flipud(nparray).copy()
 
     def gt_aug(self, input_img_gt):
         """
