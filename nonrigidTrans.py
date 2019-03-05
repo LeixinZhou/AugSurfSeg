@@ -54,16 +54,18 @@ class RandomCropResize(AugWithGTChange):
         cropped_gt = (input_img_gt['gt'][col_start:col_end] - row_start) / crop_ratio
         row_size = row_end - row_start
         col_size = col_end - col_start
+        # original size
+        row_size_orig, col_size_orig = input_img_gt['img'].shape
         # resize img
         f_img = interpolate.interp2d(np.arange(
             col_size), np.arange(row_size), cropped_img, kind=img_interp)
-        resized_img = f_img(np.arange(start=0, stop=col_size-1, step=crop_ratio), np.arange(
-            start=0, stop=row_size-1+crop_ratio, step=crop_ratio))
+        resized_img = f_img(np.linspace(start=0, stop=col_size-1, num=col_size_orig), np.linspace(
+            start=0, stop=row_size-1, num=row_size_orig))
         # resize gt
         f_gt = interpolate.interp1d(
             np.arange(col_size), cropped_gt, kind=gt_interp)
         
-        resized_gt = f_gt(np.arange(start=0, stop=col_size-1, step=crop_ratio))
+        resized_gt = f_gt(np.linspace(start=0, stop=col_size-1, num=col_size_orig))
         assert resized_img.shape[1] == resized_gt.shape[0]
         return resized_img, resized_gt
 
