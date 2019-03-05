@@ -1,4 +1,4 @@
-from augmentor import AugWithGTChange
+from .augmentor import AugWithGTChange
 import numpy as np
 import random
 from scipy import interpolate

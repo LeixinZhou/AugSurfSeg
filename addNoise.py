@@ -1,5 +1,5 @@
 import numpy as np
-from augmentor import AugNoGTChange
+from .augmentor import AugNoGTChange
 
 class AddNoise(AugNoGTChange):
     """
